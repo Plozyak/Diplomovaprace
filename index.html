@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DiplomováDílna – Nezávazná poptávka</title>
+
+  <!-- Google Ads Tracking -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11499053873"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-11499053873');
+  </script>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #e3f2fd;
+      color: #1a237e;
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 30px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #0d47a1;
+      margin-bottom: 10px;
+    }
+    p.lead {
+      font-size: 18px;
+      text-align: center;
+      margin-bottom: 30px;
+      color: #37474f;
+    }
+    ul {
+      color: #1565c0;
+      margin-bottom: 30px;
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    .form {
+      background: #e1f5fe;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #b3e5fc;
+      border-radius: 6px;
+    }
+    button {
+      background: #1976d2;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:disabled {
+      background: #90caf9;
+    }
+    #status {
+      color: #2e7d32;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .whatsapp-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #25D366;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 30px;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Profesionální pomoc se zpracováním závěrečných prací</h1>
+    <p class="lead">
+      Vyplň krátký formulář – odpovíme do 15 minut. Diskrétně a nezávazně.
+    </p>
+
+    <ul>
+      <li>✍️ Tvoříme podklady a návrhy textu</li>
+      <li>📘 Korektury, rešerše a formátování</li>
+      <li>📐 Úpravy dle školních šablon a poznámek</li>
+    </ul>
+
+    <div class="form">
+      <h2>📩 Nezávazná poptávka</h2>
+      <input id="name" type="text" placeholder="Vaše jméno" required />
+      <input id="email" type="email" placeholder="Váš e-mail" required />
+      <textarea id="message" placeholder="S čím potřebujete pomoci (typ práce, rozsah, termín)" rows="5" required></textarea>
+      <button id="sendBtn" onclick="sendTelegram()">📤 Odeslat</button>
+      <p id="status"></p>
+    </div>
+  </div>
+
+  <!-- WhatsApp Button -->
+  <a href="https://wa.me/420608369656" target="_blank" class="whatsapp-button">
+    💬 Napište nám na WhatsApp
+  </a>
+
+  <script>
+    function sendTelegram() {
+      const token = "8129644056:AAGtcM8b8SADps85oGsDh3oC_IhIwTyu-b4";
+      const chatId = "1445517709";
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const msg = document.getElementById("message").value.trim();
+      const status = document.getElementById("status");
+      const btn = document.getElementById("sendBtn");
+
+      if (!name || !email || !msg) {
+        status.innerText = "❗ Vyplňte prosím všechna pole.";
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerText = "⏳ Odesílám...";
+
+      const text = `📥 *NOVÁ POPTÁVKA DiplomováDílna*
+
+👤 *Jméno:* ${name}
+📧 *Email:* ${email}
+📝 *Zpráva:* ${msg}`;
+
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: text,
+          parse_mode: "Markdown"
+        })
+      }).then(response => {
+        if (response.ok) {
+          gtag('event', 'conversion', {
+            'send_to': 'AW-11499053873/coXOCJG-mrwaELHGlusq',
+            'value': 1.0,
+            'currency': 'CZK'
+          });
+
+          window.location.href = "https://www.diplomovadilna.cz/thanks";
+        } else {
+          status.innerText = "❌ Chyba při odesílání zprávy.";
+          btn.disabled = false;
+          btn.innerText = "📤 Odeslat";
+        }
+      }).catch(() => {
+        status.innerText = "⚠️ Problém s připojením.";
+        btn.disabled = false;
+        btn.innerText = "📤 Odeslat";
+      });
+    }
+  </script>
+</body>
+</html>
