@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -97,7 +96,10 @@
   <div class="container">
     <h1>Profesionální pomoc se zpracováním závěrečných prací</h1>
     <p class="lead">
-      Vyplň krátký formulář – odpovíme do 15 minut. Diskrétně a nezávazně.
+      Vyplň krátký formulář – odpovíme do 15 minut. Diskrétně a nezávazně.  
+      <br><strong>Více informací najdeš na našem hlavním webu: 
+      <a href="https://www.diplomovadilna.cz" target="_blank" style="color: #0d47a1; text-decoration: underline;">
+        diplomovadílna.cz</a></strong>
     </p>
 
     <ul>
@@ -110,6 +112,7 @@
       <h2>📩 Nezávazná poptávka</h2>
       <input id="name" type="text" placeholder="Vaše jméno" required />
       <input id="email" type="email" placeholder="Váš e-mail" required />
+      <input id="phone" type="tel" placeholder="Váš mobil" required />
       <textarea id="message" placeholder="S čím potřebujete pomoci (typ práce, rozsah, termín)" rows="5" required></textarea>
       <button id="sendBtn" onclick="sendTelegram()">📤 Odeslat</button>
       <p id="status"></p>
@@ -125,13 +128,15 @@
     function sendTelegram() {
       const token = "8129644056:AAGtcM8b8SADps85oGsDh3oC_IhIwTyu-b4";
       const chatId = "1445517709";
+
       const name = document.getElementById("name").value.trim();
       const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
       const msg = document.getElementById("message").value.trim();
       const status = document.getElementById("status");
       const btn = document.getElementById("sendBtn");
 
-      if (!name || !email || !msg) {
+      if (!name || !email || !phone || !msg) {
         status.innerText = "❗ Vyplňte prosím všechna pole.";
         return;
       }
@@ -143,6 +148,7 @@
 
 👤 *Jméno:* ${name}
 📧 *Email:* ${email}
+📱 *Telefon:* ${phone}
 📝 *Zpráva:* ${msg}`;
 
       fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
@@ -160,7 +166,6 @@
             'value': 1.0,
             'currency': 'CZK'
           });
-
           window.location.href = "https://www.diplomovadilna.cz/thanks";
         } else {
           status.innerText = "❌ Chyba při odesílání zprávy.";
