@@ -142,6 +142,11 @@
         btn.innerText = "📤 Odeslat";
       });
     });
+
+    // Add event for conversion tracking when the submit button is clicked
+    document.getElementById("sendBtn").addEventListener("click", function() {
+      gtag('event', 'conversion', {'send_to': 'AW-17053184709/JsmMCM3huMQaEMXly8M_'});
+    });
   </script>
 </body>
 </html>
